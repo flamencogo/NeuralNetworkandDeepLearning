@@ -3,7 +3,7 @@
 @REM git config user.name
 @REM git config user.email
 @REM git remote rm origin
-@REM git remote add origin git@compaany:flamencogo/NeuralNetworkandDeepLearning.git
+@REM git remote add origin git@company:flamencogo/NeuralNetworkandDeepLearning.git
 git add .
 git commit -m "update"
 git push origin main
