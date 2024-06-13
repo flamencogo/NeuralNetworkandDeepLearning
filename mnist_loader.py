@@ -15,7 +15,7 @@ import gzip
 
 # Third-party libraries
 import numpy as np
-# from sklearn.model_selection import train_test_split
+
 
 def load_data():
     """Return the MNIST data as a tuple containing the training data,
@@ -38,35 +38,21 @@ def load_data():
     """
     f = gzip.open('mnist.pkl.gz', 'rb')
     training_data, validation_data, test_data = pickle.load(f, encoding="latin1")
-    # print(test_data[0])
-    # print(test_data[1])
     f.close()
-
-    # f_mydata_1 = gzip.open('mydata_train.pkl.gz', 'rb')
-    # training_data = pickle.load(f_mydata_1, encoding="latin1")
-    # f_mydata_1.close()
-
-    # f_mydata = gzip.open('mydata_test.pkl.gz', 'rb')
+    
     f_mydata = gzip.open('mydata.pkl.gz', 'rb')
     mydata = pickle.load(f_mydata, encoding="latin1")
     f_mydata.close()
-    # 计算数据长度
-    total_length = len(mydata[0])
-    total_length1 = len(mydata[1])
-    print(total_length,total_length1)
-    print(mydata)
-    train_size = int(total_length * 0.8)  # 训练集占总数据量的80%
-    test_size = total_length - train_size  # 测试集占总数据量的20%
-
-    # 分割数据
-    mydata_train = mydata[:train_size]
-    mydata_test = mydata[train_size:]
-
-    # 打印分割后的数据大小以验证
-    print("Training set size:", len(mydata_train))
-    print("Testing set size:", len(mydata_test))
     
-    return (training_data, validation_data, test_data)
+    f_mydata_2 = gzip.open('mydata_train.pkl.gz', 'rb')
+    mydata_train = pickle.load(f_mydata_2, encoding="latin1")
+    f_mydata_2.close()
+    
+    f_mydata_1 = gzip.open('mydata_test.pkl.gz', 'rb')
+    test_data = pickle.load(f_mydata_1, encoding="latin1")
+    f_mydata_1.close()
+
+    return (training_data, validation_data, test_data,mydata_train)
 
 def load_data_wrapper():
     """Return a tuple containing ``(training_data, validation_data,
@@ -86,7 +72,7 @@ def load_data_wrapper():
     the training data and the validation / test data.  These formats
     turn out to be the most convenient for use in our neural network
     code."""
-    tr_d, va_d, te_d = load_data()
+    tr_d, va_d, te_d, mydata_train = load_data()
     training_inputs = [np.reshape(x, (784, 1)) for x in tr_d[0]]
     training_results = [vectorized_result(y) for y in tr_d[1]]
     training_data = zip(training_inputs, training_results)
@@ -94,7 +80,12 @@ def load_data_wrapper():
     validation_data = zip(validation_inputs, va_d[1])
     test_inputs = [np.reshape(x, (784, 1)) for x in te_d[0]]
     test_data = zip(test_inputs, te_d[1])
-    return (training_data, validation_data, test_data)
+    
+    mydata_train_inputs = [np.reshape(x, (784, 1)) for x in mydata_train[0]]
+    mydata_train_results = [vectorized_result(y) for y in mydata_train[1]]
+    mydata_train_data = zip(mydata_train_inputs, mydata_train_results)
+    
+    return (training_data, validation_data, test_data, mydata_train_data)
 
 def vectorized_result(j):
     """Return a 10-dimensional unit vector with a 1.0 in the jth

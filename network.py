@@ -20,6 +20,7 @@ import json
 # Third-party libraries
 import numpy as np
 
+
 class Network(object):
 
     def __init__(self, sizes):  # sizes是一个列表，表示每一层的神经元数量。
@@ -68,7 +69,7 @@ class Network(object):
             # 最后，返回经过所有层计算后的最终输出。
         return a
 
-    def SGD(self, training_data, epochs, mini_batch_size, eta,
+    def SGD(self, training_data,mydata_tarin, epochs, mini_batch_size, eta,
             test_data=None):
         # SGD方法实现了使用小批量随机梯度下降训练神经网络的过程。
         # 它通过分割训练数据为多个小批量，在每个小批量上更新网络的权重和偏置，以此来优化网络的性能。
@@ -87,28 +88,43 @@ class Network(object):
         network will be evaluated against the test data after each
         epoch, and partial progress printed out.  This is useful for
         tracking progress, but slows things down substantially."""
-
         training_data = list(training_data)
         n = len(training_data)
-
+        
+        mydata_tarin = list(mydata_tarin)
+        n_mydata_tarin = len(mydata_tarin)
+        
         if test_data:
             test_data = list(test_data)
             n_test = len(test_data)
         best_accuracy =0
         for j in range(epochs):
             random.shuffle(training_data)
+            random.shuffle(mydata_tarin)
+            
             mini_batches = [
                 training_data[k:k+mini_batch_size]
                 for k in range(0, n, mini_batch_size)]  # 每隔 mini_batch_size 个数字取一次
+            # print(len(mini_batches))
+            
+            if j%1 == 0:
+                mini_batches_mydata_tarin = [
+                mydata_tarin[k:k+mini_batch_size]
+                for k in range(0, n_mydata_tarin, mini_batch_size)] 
+                mini_batches=mini_batches+mini_batches_mydata_tarin
+            print(len(mini_batches))
+            
+            
             # 遍历每个小批量，对其执行权重更新
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)
+
             if test_data:
                 n_evaluate=self.evaluate(test_data)
                 current_accuracy =round(n_evaluate/n_test*100,2)
                 if current_accuracy > best_accuracy:
                     best_accuracy = current_accuracy
-                    self.save('mynet/mynet_{}'.format(current_accuracy))
+                    # self.save('mynet/mynet_{}'.format(current_accuracy))
                 print("Epoch {} : {} / {}  {}%  {}%".format(j,n_evaluate,n_test,current_accuracy,best_accuracy))
             else:
                 print("Epoch {} complete".format(j))
@@ -181,7 +197,7 @@ class Network(object):
         n_evaluate=sum(int(x == y) for (x, y) in test_results)
         current_accuracy =round(n_evaluate/n_test*100,2)
         print(test_results)
-        # 步骤1: 筛选并统计出第二个值一样的每一项
+        # 筛选并统计出第二个值一样的每一项
         second_value_counts = {}  # 用于存储第二个值相同的项的数量
         for item in test_results:
             second_value = item[1]
@@ -190,7 +206,7 @@ class Network(object):
             else:
                 second_value_counts[second_value] = [item]
 
-        # 步骤2: 求出每一项中第一个值等于第二个值的比例
+        # 求出每一项中第一个值等于第二个值的比例
         result = {}
         for second_value, items in second_value_counts.items():
             first_equal_second_count = sum(1 for item in items if item[0] == second_value)

@@ -66,11 +66,16 @@ def convert_images_to_mnist_format(directory):
                 label_data.append(label)
                     
 
-    label_data_out=np.array(label_data, dtype=np.int64)
-    array_data_out=np.array(array_data, dtype=np.float32)
+    label_data_out,array_data_out=data_out(label_data,array_data)
     
     return images_data, array_data,label_data,array_data_out, label_data_out
 
+def data_out(label_data,array_data):
+    label_data_out=np.array(label_data, dtype=np.int64)
+    array_data_out=np.array(array_data, dtype=np.float32)
+    return label_data_out,array_data_out
+    
+    
 def save_as_pkl_gz(data_list, file_path):
     with gzip.open(file_path, 'wb') as f:
         pickle.dump(data_list, f)
@@ -125,20 +130,20 @@ def plot_distribution(hist):
     plt.show()
 
 
-def array_split(array_data,label_data):
+def array_split(array_data,label_data,train_data_ratio):
     combined = list(zip(array_data, label_data))
     random.shuffle(combined)
     array_data[:], label_data[:] = zip(*combined)
 
-    train_size = int(len(array_data) * 5 / 6)
+    train_size = int(len(array_data) * train_data_ratio)
     test_size = len(array_data) - train_size
 
     # 提取训练集和测试集
     train_set_array, train_set_label = array_data[:train_size], label_data[:train_size]
     test_set_array, test_set_label = array_data[train_size:], label_data[train_size:]
-    print(len(train_set_array))
 
     return train_set_array, train_set_label,test_set_array, test_set_label
+
 
 
 
