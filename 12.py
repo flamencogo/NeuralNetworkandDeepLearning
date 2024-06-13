@@ -1,43 +1,29 @@
-# import random
-# training_data=[1,2,3,4,5,6,7,8,9]
-# random.shuffle(training_data)
-
-# n=len(training_data)
-# mini_batch_size=3
-# mini_batches = [training_data[k:k+mini_batch_size] for k in range(0, n, mini_batch_size)]
-# print(mini_batches)
-
-
 import random
-training_data=[1,2,3,4,5,6,7,8,9]
+mydata=[1,2,3,4,5,6,7,8,9,0]
+mydata_y=[11,22,33,44,55,66,77,88,99,00]
+# 假设mydata和mydata_y是已有的数据集和标签列表
+# 首先将数据集和标签列表一起打乱
+combined = list(zip(mydata, mydata_y))
+random.shuffle(combined)
+print(combined)
+# 将打乱后的数据重新分配给mydata和mydata_y
+mydata[:], mydata_y[:] = zip(*combined)
+print(mydata,mydata_y)
 
-epochs = 6
-mini_batch_size = 3
-n = len(training_data)  # 训练数据集的大小
-custom_data = [91,92,93,94,95,96,97,98,99]  # 自定义数据列表
+# 计算数据长度
+total_length = len(mydata)
+train_size = int(total_length * 0.8)  # 训练集占总数据量的80%
+test_size = total_length - train_size  # 测试集占总数据量的20%
 
-for epoch in range(epochs):
-    random.shuffle(training_data)
-    random.shuffle(custom_data)
-    
-    # 创建mini-batches
-    mini_batches = [
-        training_data[k:k + mini_batch_size]
-        for k in range(0, n, mini_batch_size)
-    ]
-    print(mini_batches)
-    
-     # 随机选择一个mini-batch进行替换
-    if epoch % 2 == 0:  # 每隔两个epoch替换一次（可根据需要调整）
-        replace_index = random.randint(0, len(mini_batches) - 1)
-        mini_batches[replace_index] += custom_data[:mini_batch_size]  # 将自定义数据添加到选定的mini-batch中
-        
-        # 如果自定义数据量大于mini_batch_size，则从自定义数据中移除已添加的部分
-        custom_data = custom_data[mini_batch_size:]
-        
-        # 更新mini_batches以反映更改
-        mini_batches = [item for sublist in mini_batches for item in sublist][:n]
-        
-    print(mini_batches)
+# 分割数据
+mydata_train = mydata[:train_size]
+mydata_train_y = mydata_y[:train_size]
 
-    # 这里可以继续处理mini_batches，例如训练模型
+mydata_test = mydata[train_size:]
+mydata_test_y = mydata_y[train_size:]
+
+# 输出四个列表
+print("Training data:", mydata_train)
+print("Training labels:", mydata_train_y)
+print("Testing data:", mydata_test)
+print("Testing labels:", mydata_test_y)

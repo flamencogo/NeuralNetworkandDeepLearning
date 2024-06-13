@@ -99,7 +99,7 @@ class Network(object):
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
-                for k in range(0, n, mini_batch_size)]  # 每隔 mini_batch_size 个数字取一次。
+                for k in range(0, n, mini_batch_size)]  # 每隔 mini_batch_size 个数字取一次
             # 遍历每个小批量，对其执行权重更新
             for mini_batch in mini_batches:
                 self.update_mini_batch(mini_batch, eta)

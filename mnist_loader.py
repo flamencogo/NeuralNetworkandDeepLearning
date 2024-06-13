@@ -15,6 +15,7 @@ import gzip
 
 # Third-party libraries
 import numpy as np
+# from sklearn.model_selection import train_test_split
 
 def load_data():
     """Return the MNIST data as a tuple containing the training data,
@@ -47,9 +48,23 @@ def load_data():
 
     # f_mydata = gzip.open('mydata_test.pkl.gz', 'rb')
     f_mydata = gzip.open('mydata.pkl.gz', 'rb')
-    test_data = pickle.load(f_mydata, encoding="latin1")
+    mydata = pickle.load(f_mydata, encoding="latin1")
     f_mydata.close()
+    # 计算数据长度
+    total_length = len(mydata[0])
+    total_length1 = len(mydata[1])
+    print(total_length,total_length1)
+    print(mydata)
+    train_size = int(total_length * 0.8)  # 训练集占总数据量的80%
+    test_size = total_length - train_size  # 测试集占总数据量的20%
 
+    # 分割数据
+    mydata_train = mydata[:train_size]
+    mydata_test = mydata[train_size:]
+
+    # 打印分割后的数据大小以验证
+    print("Training set size:", len(mydata_train))
+    print("Testing set size:", len(mydata_test))
     
     return (training_data, validation_data, test_data)
 

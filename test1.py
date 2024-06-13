@@ -4,7 +4,7 @@ import pic_to_testdata
 
 
 directory_input = 'mydata_input'
-directory_input = 'mydata_input_1'
+# directory_input = 'mydata_input_1'
 directory_output = 'mydata_output'
 pkl_path_test = 'mydata.pkl.gz'
 images_data, array_data, label_data,array_data_out, label_data_out = pic_to_testdata.convert_images_to_mnist_format(directory_input)
