@@ -46,7 +46,6 @@ def convert_images_to_mnist_format(directory):
                 arr[(arr > threshold_1) & (arr < threshold_2)] = 255
                 arr[arr < threshold_1] = 0
 
-
                 # threshold=127
                 # arr[arr > threshold] = 255
                 # arr[arr < threshold] = 0

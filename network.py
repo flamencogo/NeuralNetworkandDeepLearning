@@ -107,11 +107,14 @@ class Network(object):
                 for k in range(0, n, mini_batch_size)]  # 每隔 mini_batch_size 个数字取一次
             # print(len(mini_batches))
             
-            if j%1 == 0:
+            if j % 1 == 0:
                 mini_batches_mydata_tarin = [
                 mydata_tarin[k:k+mini_batch_size]
                 for k in range(0, n_mydata_tarin, mini_batch_size)] 
-                mini_batches=mini_batches+mini_batches_mydata_tarin
+                print(mini_batches_mydata_tarin)
+                if len(mini_batches_mydata_tarin) != 0:
+                    
+                    mini_batches = mini_batches + mini_batches_mydata_tarin
             print(len(mini_batches))
             
             
