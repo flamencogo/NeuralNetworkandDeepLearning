@@ -111,7 +111,7 @@ class Network(object):
                 mini_batches_mydata_tarin = [
                 mydata_tarin[k:k+mini_batch_size]
                 for k in range(0, n_mydata_tarin, mini_batch_size)] 
-                print(mini_batches_mydata_tarin)
+                # print(mini_batches_mydata_tarin)
                 if len(mini_batches_mydata_tarin) != 0:
                     
                     mini_batches = mini_batches + mini_batches_mydata_tarin

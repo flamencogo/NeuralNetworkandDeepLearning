@@ -19,7 +19,7 @@ pic_to_testdata.save_images(images_data, label_data, directory_output)
 
 training_data, validation_data, test_data, mydata_train_data = mnist_loader.load_data_wrapper()
 net = network.Network([784,30,10])
-net.SGD(training_data, mydata_train_data, 50, 10, 3.0, test_data=test_data)
+net.SGD(training_data, mydata_train_data, 50, 10, 3.0,test_data=test_data)
  
 # net = network.load_net('mynet/mynet_94.4')
 # net.evaluate(test_data)
